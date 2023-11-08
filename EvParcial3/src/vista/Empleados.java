@@ -4,18 +4,66 @@
  */
 package vista;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author CETECOM
  */
-public class Empleados extends javax.swing.JFrame {
+public class Empleados extends javax.swing.JDialog {
 
     /**
      * Creates new form Empleados
+     * @param parent
+     * @param modal
      */
-    public Empleados() {
+    public Empleados(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
+        try {
+            
+        } catch (Exception e) {
+        }
     }
+    
+    private void fillJTable(ArrayList unArrayList) {
+         DefaultTableModel m = (DefaultTableModel) table_register.getModel();
+        m.setRowCount(0);
+        
+        Iterator it = unArrayList.iterator();
+
+        int numeroColumnas = 8;
+        Object[] registro = new Object[numeroColumnas];
+
+        while (it.hasNext())
+        {
+            Object unObjeto = it.next();
+
+            Empleado p = (Empleado)unObjeto;
+            
+            registro[0] = p.getRut();
+            registro[1] = p.getNombre();
+            registro[2] = p.getSexo();
+            registro[3] = p.getFechaNacimiento();
+            registro[4] = p.getEdad();
+            registro[5] = p.getPeso();
+            registro[6] = p.isVip();
+            registro[7] = p.getComuna().toString();
+            
+            m.addRow(registro);
+        }
+
+        table_register.setModel(m);
+    }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,7 +75,7 @@ public class Empleados extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_register = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -42,7 +90,7 @@ public class Empleados extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_register.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -68,14 +116,14 @@ public class Empleados extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        jScrollPane1.setViewportView(table_register);
+        if (table_register.getColumnModel().getColumnCount() > 0) {
+            table_register.getColumnModel().getColumn(0).setResizable(false);
+            table_register.getColumnModel().getColumn(1).setResizable(false);
+            table_register.getColumnModel().getColumn(2).setResizable(false);
+            table_register.getColumnModel().getColumn(3).setResizable(false);
+            table_register.getColumnModel().getColumn(4).setResizable(false);
+            table_register.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jLabel1.setText("Filtro Departamento:");
@@ -180,11 +228,12 @@ public class Empleados extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        /*java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Empleados().setVisible(true);
             }
         });
+        */
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -197,9 +246,9 @@ public class Empleados extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable table_register;
     // End of variables declaration//GEN-END:variables
 }
