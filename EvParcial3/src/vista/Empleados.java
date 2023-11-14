@@ -11,15 +11,16 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import javax.swing.table.DefaultTableModel;
+import modelo.Empleado;
 
 /**
  *
  * @author CETECOM
  */
 public class Empleados extends javax.swing.JDialog {
-
+    
     /**
-     * Creates new form Empleados
+     * Creates new form Clientes
      * @param parent
      * @param modal
      */
@@ -27,8 +28,11 @@ public class Empleados extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         try {
-            
-        } catch (Exception e) {
+            fillJTable(new Empleado().read());
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Empleado.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Empleado.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -38,7 +42,7 @@ public class Empleados extends javax.swing.JDialog {
         
         Iterator it = unArrayList.iterator();
 
-        int numeroColumnas = 8;
+        int numeroColumnas = 6;
         Object[] registro = new Object[numeroColumnas];
 
         while (it.hasNext())
@@ -47,14 +51,12 @@ public class Empleados extends javax.swing.JDialog {
 
             Empleado p = (Empleado)unObjeto;
             
-            registro[0] = p.getRut();
+            registro[0] = p.getId();
             registro[1] = p.getNombre();
-            registro[2] = p.getSexo();
-            registro[3] = p.getFechaNacimiento();
-            registro[4] = p.getEdad();
-            registro[5] = p.getPeso();
-            registro[6] = p.isVip();
-            registro[7] = p.getComuna().toString();
+            registro[2] = p.getDepartamento();
+            registro[3] = p.getFechaContrato();
+            registro[4] = p.getSueldo();
+            registro[5] = p.getPosicion();
             
             m.addRow(registro);
         }
@@ -88,7 +90,7 @@ public class Empleados extends javax.swing.JDialog {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         table_register.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -137,6 +139,11 @@ public class Empleados extends javax.swing.JDialog {
         jLabel3.setText("Hasta");
 
         jButton3.setText("Agregar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Modificar");
 
@@ -199,6 +206,16 @@ public class Empleados extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            new EmpAgregar(null, true).setVisible(true);
+            /* Actualiza la tabla */
+            this.fillJTable(new Empleado().read());
+        } catch (Exception ex) {
+            Logger.getLogger(Empleados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

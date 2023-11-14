@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public final class Empleado {
-    private String id;
+    private int id;
     private String nombre;
     private String departamento;
     private Date fechaContrato;
@@ -17,7 +17,7 @@ public final class Empleado {
     public Empleado() {
     }
 
-    public Empleado(String id, String nombre, String departamento, Date fechaContrato, int sueldo, String posicion) {
+    public Empleado(int id, String nombre, String departamento, Date fechaContrato, int sueldo, String posicion) {
         this.setId(id);
         this.setNombre(nombre);
         this.setDepartamento(departamento);
@@ -26,11 +26,11 @@ public final class Empleado {
         this.setPosicion(posicion);
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -103,40 +103,40 @@ public final class Empleado {
         cDAO.create(e);           
     }
   
-    public ArrayList<Cliente> read() throws InstantiationException, IllegalAccessException, Exception
+    public ArrayList<Empleado> read() throws InstantiationException, IllegalAccessException, Exception
     {        
-        CrudDAOable<Cliente> cDAO = new ClienteDAOImpl();
+        CrudDAOable<Empleado> cDAO = new EmpleadoDAOImpl();
         return cDAO.read();   
     }
     
-    public ArrayList<Cliente> readConWhere(String whereSQL) throws InstantiationException, IllegalAccessException, Exception
+    public ArrayList<Empleado> readConWhere(String whereSQL) throws InstantiationException, IllegalAccessException, Exception
     {        
-        CrudDAOable<Cliente> cDAO = new ClienteDAOImpl();
+        CrudDAOable<Empleado> cDAO = new EmpleadoDAOImpl();
         return cDAO.readWhere(whereSQL);
     }
     
-    public void update(Cliente c) throws InstantiationException, IllegalAccessException, Exception
+    public void update(Empleado e) throws InstantiationException, IllegalAccessException, Exception
     {
-        CrudDAOable<Cliente> cDAO = new ClienteDAOImpl();
-        cDAO.update(c);           
+        CrudDAOable<Empleado> cDAO = new EmpleadoDAOImpl();
+        cDAO.update(e);           
     }    
 
 
-    public void delete(Cliente c) throws InstantiationException, IllegalAccessException, Exception
+    public void delete(Empleado e) throws InstantiationException, IllegalAccessException, Exception
     {
-        CrudDAOable<Cliente> cDAO = new ClienteDAOImpl();
-        cDAO.delete(c);           
+        CrudDAOable<Empleado> cDAO = new EmpleadoDAOImpl();
+        cDAO.delete(e);           
     }        
     
-    public int getComunaByRut(String rut) throws IllegalAccessException, Exception
-    {
-        ClienteDAOImpl cDAO = new ClienteDAOImpl();
-        return cDAO.getComunaByRut(rut);
-    }
+//    public int getComunaByRut(String rut) throws IllegalAccessException, Exception
+//    {
+//        EmpleadoDAOImpl cDAO = new EmpleadoDAOImpl();
+//        return cDAO.getComunaByRut(rut);
+//    }
     
-    public Cliente getCliente(Cliente cli) throws InstantiationException, IllegalAccessException, Exception
-    {
-        ClienteDAOImpl cDAO = new ClienteDAOImpl();
-        return cDAO.readWhere("rut = '" + cli.getRut()+ "'").get(0);
-    }
+//    public Empleado getEmpleado(Empleado emp) throws InstantiationException, IllegalAccessException, Exception
+//    {
+//        EmpleadoDAOImpl cDAO = new EmpleadoDAOImpl();
+//        return cDAO.read(emp.getId());
+//    }
 }

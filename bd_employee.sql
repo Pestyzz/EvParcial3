@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2023 a las 17:30:34
+-- Tiempo de generación: 14-11-2023 a las 17:06:54
 -- Versión del servidor: 10.4.10-MariaDB
 -- Versión de PHP: 7.3.12
 
@@ -44,7 +44,9 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`id`, `nombre`, `departamento`, `fecha_cont`, `sueldo`, `posicion`) VALUES
-(1, 'pepe alexander villalobos de la santisima trinidad', 'Contabilidad', '2012-12-12', '2222222', 'Ejecutivo');
+(1, 'pepe alexander villalobos de la santisima trinidad', 'Contabilidad', '2012-12-12', '2222222', 'Ejecutivo'),
+(2, 'allanbrito', 'Ventas', '2022-12-13', '500000', 'Jefe Ejecutivo'),
+(3, 'Bastiancito', 'Informática', '1912-12-12', '5000000', 'Dueño');
 
 --
 -- Índices para tablas volcadas
@@ -64,7 +66,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT de la tabla `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

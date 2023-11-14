@@ -1,23 +1,42 @@
 package db;
 
-import java.sql.*;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Conexion {
-    public static Connection getConnection() {
-        Connection connection = null;
-        
-        try {
-            String bbdd_mysql = "employeedb";
-            String user_mysql = "root";
-            String pass_mysql = "";
-            String driverClassName = "com.mysql.jdbc.Driver";
-            String driverUrl="jdbc:mysql://localhost/" + bbdd_mysql;
-            Class.forName(driverClassName);
-            connection = DriverManager.getConnection(driverUrl, user_mysql,pass_mysql);
-            System.out.println("Conexión exitosa");
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-        return connection;
+    private static String jdbc;
+    private static String driverClass;
+    private static String host;
+    private static String port;
+    private static String database;
+    private static String opciones;
+    private static String url;
+    private static String username;
+    private static String password;
+
+    // Objeto conexion a la base de datos
+    private static Connection conexion;
+
+    public static Connection open() throws java.lang.ClassNotFoundException,
+            java.lang.InstantiationException, java.lang.IllegalAccessException,
+            java.sql.SQLException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
+        jdbc = IDatabase.JDBC;
+        driverClass = IDatabase.DRIVER;
+        host = IDatabase.HOST;
+        port = IDatabase.PORT;
+        database = IDatabase.DATABASE;
+        opciones = IDatabase.OPCIONES;
+        url = jdbc + host + ":" + port + "/" + database + opciones;
+        username = IDatabase.USERNAME;
+        password = IDatabase.PASSWORD;
+        Class.forName(driverClass).getDeclaredConstructor().newInstance();
+        conexion = DriverManager.getConnection(url, username, password);
+        return conexion;
+    }
+
+    public static void close() throws SQLException {
+        conexion.close();
     }
 }
