@@ -9,7 +9,7 @@ import java.util.Objects;
 public final class Empleado {
     private int id;
     private String nombre;
-    private String departamento;
+    private Departamento departamento;
     private Date fechaContrato;
     private int sueldo;
     private String posicion;
@@ -17,7 +17,7 @@ public final class Empleado {
     public Empleado() {
     }
 
-    public Empleado(int id, String nombre, String departamento, Date fechaContrato, int sueldo, String posicion) {
+    public Empleado(int id, String nombre, Departamento departamento, Date fechaContrato, int sueldo, String posicion) {
         this.setId(id);
         this.setNombre(nombre);
         this.setDepartamento(departamento);
@@ -42,11 +42,11 @@ public final class Empleado {
         this.nombre = nombre;
     }
 
-    public String getDepartamento() {
+    public Departamento getDepartamento() {
         return departamento;
     }
 
-    public void setDepartamento(String departamento) {
+    public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
     }
 
@@ -76,7 +76,7 @@ public final class Empleado {
 
     @Override
     public String toString() {
-        return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", departamento=" + departamento + ", fechaContrato=" + fechaContrato + ", sueldo=" + sueldo + ", posicion=" + posicion + '}';
+        return "Empleado{" + "id=" + id + ", nombre=" + nombre + ", fechaContrato=" + fechaContrato + ", sueldo=" + sueldo + ", posicion=" + posicion + '}';
     }
     
     @Override
@@ -128,15 +128,15 @@ public final class Empleado {
         cDAO.delete(e);           
     }        
     
-//    public int getComunaByRut(String rut) throws IllegalAccessException, Exception
-//    {
-//        EmpleadoDAOImpl cDAO = new EmpleadoDAOImpl();
-//        return cDAO.getComunaByRut(rut);
-//    }
+    public int getDeptById(int id) throws IllegalAccessException, Exception
+    {
+       EmpleadoDAOImpl cDAO = new EmpleadoDAOImpl();
+        return cDAO.getDeptById(id);
+   }
     
-//    public Empleado getEmpleado(Empleado emp) throws InstantiationException, IllegalAccessException, Exception
-//    {
-//        EmpleadoDAOImpl cDAO = new EmpleadoDAOImpl();
-//        return cDAO.read(emp.getId());
-//    }
+    public Empleado getEmpleado(Empleado emp) throws InstantiationException, IllegalAccessException, Exception
+    {
+        EmpleadoDAOImpl cDAO = new EmpleadoDAOImpl();
+        return cDAO.readWhere("id = '" + emp.getId() + "'").get(0);
+   }
 }

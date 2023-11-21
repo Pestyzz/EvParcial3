@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import modelo.Empleado;
+import modelo.Departamento;
 import modelo.Excepcion;
 
 public class EmpAgregar extends javax.swing.JDialog {
@@ -22,8 +23,36 @@ public class EmpAgregar extends javax.swing.JDialog {
     public EmpAgregar(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.inicializar();
     }
 
+    private void inicializar() {
+        Departamento dep = new Departamento();
+        ArrayList departamentos;
+        try {
+            departamentos = dep.read();
+            this.cargarDeptos(departamentos);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(EmpAgregar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(EmpAgregar.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void cargarDeptos(ArrayList departamentos) {
+        cb_depto.removeAllItems();
+
+        Iterator iterador = departamentos.iterator();
+        while (iterador.hasNext()) {
+            Object unObject = iterador.next();
+            Departamento d = (Departamento) unObject;
+            
+            cb_depto.addItem(d.getNombreDept());
+        }
+
+        cb_depto.setSelectedIndex(0);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,8 +65,6 @@ public class EmpAgregar extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        departamento = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         fechaContrato = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -48,6 +75,8 @@ public class EmpAgregar extends javax.swing.JDialog {
         agregar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         salir = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        cb_depto = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -56,9 +85,6 @@ public class EmpAgregar extends javax.swing.JDialog {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel2.setText("Agregar Empleado");
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Departamento:");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Fecha Contrato:");
@@ -94,6 +120,16 @@ public class EmpAgregar extends javax.swing.JDialog {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setText("Departamento:");
+
+        cb_depto.setSelectedIndex(-1);
+        cb_depto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_deptoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,27 +149,30 @@ public class EmpAgregar extends javax.swing.JDialog {
                                 .addGap(37, 37, 37)
                                 .addComponent(salir))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(11, 11, 11)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(posicion, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(departamento, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(103, 103, 103)
+                                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(24, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cb_depto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(50, 50, 50)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(posicion, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fechaContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7)
                             .addComponent(jLabel1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel7)
-                                .addComponent(jButton2)))
+                            .addComponent(jButton2))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -144,25 +183,25 @@ public class EmpAgregar extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(departamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(fechaContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(sueldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(posicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(cb_depto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -184,11 +223,14 @@ public class EmpAgregar extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         nombre.setText("");
-        departamento.setText("");
         fechaContrato.setText("");
         sueldo.setText("");   
         posicion.setText("");
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cb_deptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_deptoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_deptoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,7 +271,6 @@ public class EmpAgregar extends javax.swing.JDialog {
         try {
             // tomando valores de los controles para despues crear objeto
             String nombre = this.nombre.getText();
-            String departamento = this.departamento.getText();
             String fechaContratoString = this.fechaContrato.getText();
             SimpleDateFormat procesadorDeFechasString = new SimpleDateFormat("dd-MM-yyyy");
             Date fechaContratoTipoDate = null;
@@ -237,14 +278,18 @@ public class EmpAgregar extends javax.swing.JDialog {
             int sueldo = Integer.parseInt(this.sueldo.getText());
             String posicion = this.posicion.getText();
             
+            Departamento deptoSeleccionado = null;
+            if (this.cb_depto.getModel().getSize() != 0) {
+                deptoSeleccionado = (Departamento) this.cb_depto.getSelectedItem();
+            }
 
             //Creamos el objeto
             Empleado e = new Empleado();
             e.setNombre(nombre);
-            e.setDepartamento(departamento);
             e.setFechaContrato(fechaContratoTipoDate);
             e.setSueldo(sueldo);
             e.setPosicion(posicion);
+            e.setDepartamento(deptoSeleccionado);
             /* Almacena el objeto */
             e.create(e);
 
@@ -263,16 +308,16 @@ public class EmpAgregar extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregar;
-    private javax.swing.JTextField departamento;
+    private javax.swing.JComboBox<String> cb_depto;
     private javax.swing.JTextField fechaContrato;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField nombre;
     private javax.swing.JTextField posicion;
     private javax.swing.JButton salir;
